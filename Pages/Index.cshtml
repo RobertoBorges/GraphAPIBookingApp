@@ -1,0 +1,171 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Book an Appointment";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="mb-4">Book an Appointment</h2>
+        </div>
+    </div>
+
+    <form method="post">
+        <div class="row">
+            <!-- Left Column - Date Selection -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-calendar-alt me-2"></i>
+                            <h5 class="mb-0">DATE</h5>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <!-- Service Selection -->
+                        <div class="mb-3">
+                            <label class="form-label">Select a Service</label>
+                            <select class="form-select" asp-for="BookingRequest.ServiceId" id="serviceSelect">
+                                <option value="">Choose a service...</option>
+                                @foreach (var service in Model.Services)
+                                {
+                                    <option value="@service.Id">@service.DisplayName (@service.DurationInMinutes min)</option>
+                                }
+                            </select>
+                        </div>
+
+                        <!-- Staff Selection -->
+                        <div class="mb-3">
+                            <label class="form-label">Select Staff Member</label>
+                            <select class="form-select" asp-for="BookingRequest.SelectedStaffId" id="staffSelect">
+                                <option value="">Choose a staff member...</option>
+                                @foreach (var staff in Model.Staff)
+                                {
+                                    <option value="@staff.Id">@staff.DisplayName - @staff.Role</option>
+                                }
+                            </select>
+                        </div>
+
+                        <!-- Calendar -->
+                        <div class="calendar-container">
+                            <div class="calendar-header d-flex justify-content-between align-items-center mb-3">
+                                <button type="button" class="btn btn-sm btn-outline-secondary" onclick="previousMonth()">
+                                    &lt;
+                                </button>
+                                <h6 class="mb-0" id="monthYear">@Model.Calendar.MonthName @Model.Calendar.Year</h6>
+                                <button type="button" class="btn btn-sm btn-outline-secondary" onclick="nextMonth()">
+                                    &gt;
+                                </button>
+                            </div>
+                            <div class="calendar-grid">
+                                <div class="calendar-weekdays">
+                                    <div class="weekday">S</div>
+                                    <div class="weekday">M</div>
+                                    <div class="weekday">T</div>
+                                    <div class="weekday">W</div>
+                                    <div class="weekday">T</div>
+                                    <div class="weekday">F</div>
+                                    <div class="weekday">S</div>
+                                </div>
+                                <div class="calendar-days" id="calendarDays">
+                                    @foreach (var day in Model.Calendar.Days)
+                                    {
+                                        <div class="calendar-day @(day.IsCurrentMonth ? "" : "other-month") @(day.IsToday ? "today" : "") @(day.IsAvailable ? "available" : "")"
+                                             data-date="@day.Date.ToString("yyyy-MM-dd")"
+                                             onclick="selectDate(this)">
+                                            @day.Date.Day
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" asp-for="BookingRequest.SelectedDate" id="selectedDate" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column - Time Selection & Details -->
+            <div class="col-md-6">
+                <!-- Time Selection -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-clock me-2"></i>
+                            <h5 class="mb-0">TIME</h5>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="timeSelection" class="text-muted">
+                            Select a service and date to see available times.
+                        </div>
+                        <input type="hidden" asp-for="BookingRequest.SelectedTime" id="selectedTime" />
+                    </div>
+                </div>
+
+                <!-- Customer Details -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-user me-2"></i>
+                            <h5 class="mb-0">ADD YOUR DETAILS</h5>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label asp-for="BookingRequest.FullName" class="form-label"></label>
+                            <span class="text-danger">*</span>
+                            <input asp-for="BookingRequest.FullName" class="form-control" placeholder="First and last name" />
+                            <span asp-validation-for="BookingRequest.FullName" class="text-danger"></span>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="BookingRequest.Email" class="form-label"></label>
+                                    <span class="text-danger">*</span>
+                                    <input asp-for="BookingRequest.Email" class="form-control" placeholder="Email" />
+                                    <span asp-validation-for="BookingRequest.Email" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="BookingRequest.PhoneNumber" class="form-label"></label>
+                                    <input asp-for="BookingRequest.PhoneNumber" class="form-control" placeholder="Add your phone number" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="BookingRequest.Address" class="form-label"></label>
+                            <input asp-for="BookingRequest.Address" class="form-control" placeholder="Address" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="BookingRequest.SpecialRequests" class="form-label"></label>
+                            <textarea asp-for="BookingRequest.SpecialRequests" class="form-control" rows="3" placeholder="Add any special requests"></textarea>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg" id="bookButton" disabled>
+                                Book
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@if (!string.IsNullOrEmpty(Model.Message))
+{
+    <div class="alert @(Model.IsSuccess ? "alert-success" : "alert-danger") mt-3" role="alert">
+        @Model.Message
+    </div>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/booking.js" asp-append-version="true"></script>
+}
