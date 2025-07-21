@@ -1,0 +1,8 @@
+{
+    "dotnet.defaultSolution": "${workspaceFolder}/GraphAPIBookingApp.csproj",
+    "editor.formatOnSave": true,
+    "csharp.format.enable": true,
+    "omnisharp.enableRoslynAnalyzers": true,
+    "omnisharp.enableEditorConfigSupport": true,
+    "debug.allowBreakpointsEverywhere": true
+}

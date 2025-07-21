@@ -1,0 +1,24 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphAPIBookingApp", "GraphAPIBookingApp.csproj", "{0F568053-D469-1AC5-7CC8-23B531CDC133}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0F568053-D469-1AC5-7CC8-23B531CDC133}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F568053-D469-1AC5-7CC8-23B531CDC133}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F568053-D469-1AC5-7CC8-23B531CDC133}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F568053-D469-1AC5-7CC8-23B531CDC133}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7A415F96-AEA9-4E68-99E6-F1927AE0E834}
+	EndGlobalSection
+EndGlobal
